@@ -1,0 +1,212 @@
+##You should create one R script called run_analysis.R that does the following. 
+##Merges the training and the test sets to create one data set.
+##Extracts only the measurements on the mean and standard deviation for each measurement. 
+##Uses descriptive activity names to name the activities in the data set
+##Appropriately labels the data set with descriptive activity names. 
+##Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+
+---------------------------------------------
+
+
+
+
+ne of the most exciting areas in all of data science right now is wearable computing - see for example this article . Companies like Fitbit, Nike, and Jawbone Up are racing to develop the most advanced algorithms to attract new users. The data linked to from the course website represent data collected from the accelerometers from the Samsung Galaxy S smartphone. A full description is available at the site where the data was obtained: 
+
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
+
+Here are the data for the project: 
+
+https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+
+ You should create one R script called run_analysis.R that does the following. 
+Merges the training and the test sets to create one data set.
+Extracts only the measurements on the mean and standard deviation for each measurement. 
+Uses descriptive activity names to name the activities in the data set
+Appropriately labels the data set with descriptive activity names. 
+Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+Good luck!
+--------------------------------------------------------------------------
+
+
+"1. Merges the training and the test sets to create one data set."
+
+You can ignore the inertial signals folder, and just concentrate on the subject, x and y files.  You should create on data set that combines all the info from these 6 files (three in train and three in test folders).
+
+"2. Extracts only the measurements on the mean and standard deviation for each measurement."
+"Extract it where? Console prompt line? A data frame? A data file? "
+
+Good question.  I have just extracted it to a data file.  To see what's in it the user would have to look at the data file in the console or workspace.  Not sure if this is OK or not.
+
+""3. Uses descriptive activity names to name the activities in the data set"
+"So does this mean that we do create a data frame with variables that are more meaningful than the ones that seem to be provided with these files?"
+
+Yes, something like that.  It might also be a good idea to remove any possible "illegal" characters.  I think the main thing here is that, whatever you choose to do, you justify it in your README.md file and perhaps more thoroughly in your CodeBook.md.  But confess I am a little unclear on what should go in readme and what should go in codebook...
+
+Hi David and others,
+For step 4 I have changed the names of the variables like this. However how can you actually label that variable 1 is "the time domain of mean acceleration on x axis"? I have found some info on this "Hmisc" package, is there another way?
+
+Thanks to David and all students for helping each other out!
+[1] "t.body.acc.mean.x"      "t.body.acc.mean.y"      "t.body.acc.mean.z"     
+[4] "t.gravity.acc.mean.x"   "t.gravity.acc.mean.y"   "t.gravity.acc.mean.z"  
+[7] "t.body.acc.jerk.mean.x"
+0votes received.· flag
+David HoodCOMMUNITY TA· a day ago 
+mostly I just used gsub (which you might have used in the quizzes)
+
+names(mydataframe) <- gsub("Mag", "Magnitude", names(mydataframe))
+
+Juan, what are you using to load it? I initially tried to use read.fwf() and my sad little PC with only 2GB choked. Using read.table() it had no problem.
+0votes received.· flag
+Rahul JanardanSignature Track· 16 hours ago 
+You could also reduce the buffersize value for read.fwf. Decreasing it will require lesser memory. Default is 2000. 
+0votes received.· flag
+Anonymous· 13 hours ago 
+@Kuber, are you using any direct R command to display those file details	
+Allright I will try and be clear on point 1. First of all ignore the folders "Inertial signals", you don't need the files from that. Then read in the data from either the "test" or "train" folder with "read.table" (and sep="" or leave it out the parameters and there are no headers). If you read in all 3 files you'll notice that it all has the same number of rows. The file "y_test.txt" contains the activity he was performing (1=walking, 2=walking upstairs, etc.). The other files are probably clear (subjectnr and the actual data). Because all three files have the same number of rows you can use "cbind" and then you'll have the test or training set compleet. Repeat and "rbind" both datasets.
+
+561 features given in features.txt. Am I right?
+
+Also, how can we merge y_test and y_train with X_test and X_train?
+0votes received.· flag
+David HoodCOMMUNITY TA· 10 hours ago 
+Vandana, rbind for combining test and train, cbind for combining x and y
+
+0votes received.· flag
+vandana srivastava· an hour ago 
+I may sound foolish but what about the merged_subject data? I have performed the following steps:
+STEP 1--  rbind: x_test and x_train, y_test and y_train, subject_test and subject_train
+STEP 2-- cbind: combinedX and combinedY
+Should I cbind the combinedSubject also in STEP 2?
+0votes received.· flag
+David HoodCOMMUNITY TA· 43 minutes ago 
+I think it is a very good plan to cbind subject in with the rest early on (so in step 2) so that all of the information is in one group.
+
+0votes received.· flag
+
+a. So we need to load - 'train/X_train.txt': Training set. and - 'test/X_test.txt': Test set. with HEADER = FALSE and the use rbind to merge them. 
+b. Note that we also have train/y_train.txt and test/y_test.txt. These txt files hold the labels for each data set in the form of numbers 1, 2, 3, 4, 5, 6. These numbers represent activity label numbers as and they are corresponding to
+1 WALKING
+2 WALKING_UPSTAIRS
+3 WALKING_DOWNSTAIRS
+4 SITTING
+5 STANDING
+6 LAYING
+These are the "Descriptive Activity Names" that we need to use instead of the 1, 2, 3, 4, 5, and 6.
+c. loading features.txt shows a list of 561 variables..... each train and test sets show values for these 561 variables.  Only a subset of these actually are related to mean() and std(). We need only these.
+
+---------------------------------------------------------------------
+This is not an official checklist just some things that I think people doing the project should make sure they have covered. I'm not really intending this as a how do I do x,y, and z thread, but if anyone thinks of points that could/ should be ticked off I welcome contributions:
+
+The explanation is as important as the script, so make sure you have the read me
+have you combined the training and test x and y into one block, given them headings, and turned the numeric activities into something easier to read. Think of it as you data files are blocks of lego and you are working out how to clip them together to make a wall.
+have you extracted some variables to do with mean and standard deviation from the full set. I am being non-specific here because in this assignment you are using you professional judgement about which variables to include and documenting your reasoning. There is no specific number of columns that is correct.
+have you explained what those variables are and your criteria for picking them in the readMe
+have you gotten the average of each variable for each combination of subject and activity and saved the data frame of this as a set of tidy data
+have you give the variables English-like descriptive names describing the activity that the sensor is measuring? (this is a slightly, or indeed very, horribly worded part of the assignment)
+remember that codebook you had to learn to use in the week 1 quiz, now it * is time to create your own describing those descriptive English named variables you decided to use. The codebook should go on github to. have you loaded up your current script, an up to date read me and the codebook to github?
+and your tidy data to coursera- Important load in a text file of the data (or at least some kind of file). Do not try and copy and paste in all your tidy data. Very, very bad things might happen to your submission. Do not experiment to find out what, just trust me on this from previous experience. Add a file like it says in the instructions. Personally, I think it is a reasonable assumption to figure that anyone doing this course is able to deal with a tab delimited text file like you get by taking your data and doing write.table().
+Now if you skipped over the Toolbox course, you might not be familiar with markdown. The emergency brief description is that it is a text file with blank lines separating ever paragraph, headings on lines starting with hash symbols
+
+## This is a heading
+`
+comes out
+
+This is a heading
+and you can do bullet points by putting * symbols at the start of lines
+
+* item 1
+* item 2
+comes out
+
+item 1
+item 2
+However, for uploading to github etc, I urge you to look at the Data Science Toolbox course, as that course was intended as a gentle introduction to these processes (though you could do the course simultaneously in an emergency rush).
+
+41votes received.· flag
+Jens Christian EriksenSignature Track· 15 days ago 
+have you give the variables English-like descriptive names describing the activity that the sensor is measuring? (this is a slightly, or indeed very, horribly worded part of the assignment)
+Does this mean we should come up with new names for the variables? Without saying too much, there are over 500 variable names, so i believe this would be a very tedious task.
+
+If we only need to come up with new names for variables that contain the mean and standardeviation, there will still be ALOT of variable names to consider. What is your thought on this? An alternative would be to use what is already included in the dataset, no?
+
+I know from the lectures that variable names should:
+not contain capital letters
+not contain underscores, dots, whitespaces, or the like
+be descriptive
+However, with this dataset, i believe following these rules would actually make the dataset much harder to work with..
+7votes received.· flag
+GuillermoSignature Track· 13 days ago 
+Cheers,
+
+Re. variable naming, it's not necesarely as you say. Look at the Google R style guide:
+https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml
+
+I quote:
+Identifiers
+
+Don't use underscores ( _ ) or hyphens ( - ) in identifiers. Identifiers should be named according to the following conventions. The preferred form for variable names is all lower case letters and words separated with dots (variable.name), but variableName is also accepted; function names have initial capital letters and no dots (FunctionName); constants are named like functions but with an initial k.
+
+variable.name is preferred, variableName is accepted 
+GOOD: avg.clicks 
+OK: avgClicks 
+BAD: avg_Clicks
+FunctionName 
+GOOD: CalculateAvgClicks 
+BAD: calculate_avg_clicks , calculateAvgClicks 
+Make function names verbs. 
+Exception: When creating a classed object, the function name (constructor) and class should match (e.g., lm).
+kConstantName
+16votes received.· flag
+Jens Christian EriksenSignature Track· 13 days ago 
+Thanks for the information Guillermo. While i agree with you, I really don't want to end up in a situation where I will get a lower score, because the grading rubric says something like "Are all variable names in lower case, and without dots, hyphens and underscores".
+
+I believe that what you quoted, would result in easily readable variable names, versus having all lower case, no hyphens or dots. 
+
+An example could be: xvariableorientationmeasurementx versus x.variable.orientation.measurement.x
+
+In a real dataset, the variable, orientation, and measurement would probably be in a shorter form like var, ori, meas., but you get the idea :)
+__________________________________________
+
+Hey. I was lost at the beggining, so I read a los of threads and comments, some of which I agreed and some which I did not. I am almost finished, and I would like to give a head start to those that are maybe as lost as I was at the beggining. For those comments I read and agreed, lots and lots of thanks; this is but a recopilation of different ideas and some of my own to do the project correctly.
+
+You should create one R script called run_analysis.R that does the following. 
+Merges the training and the test sets to create one data set Read the README.txt file in the UCI HAR Dataset folder. There you will understand which files you should read with R studio into data frames from the train and test folders, work on them parallely using the common names in the features file. (I did not use the Inertial Signals folders at all). After doing all of this, you can merge the dataframes into the one dataset the question asks for. 
+Extracts only the measurements on the mean and standard deviation for each measurement. The features_info.txt file will give you a clue on how to find the columns that contain mean and standard deviation info. I created a subset extracting these columns (and the columns I need to merge like subject (subject number), group partition (train or test), and activity (sitting, walking, etc).  I recommend reading ahead into the week 4 lectures to do this part, it REALLY helps (specially the first lecture).
+ 
+Uses descriptive activity names to name the activities in the data set  The activity (sitting, walking) is numbered in the original test and train files. Use the activity_labels.txt file to change these numbers into their corresponding names, which clearly describe the activity. 
+Appropriately labels the data set with descriptive activity names. This was the instruction tha I found more vague, and I read a lot of different ideas around it. Because there are a lot of differente rules on different bibliography, I decided to use the first video lecture of week 4 to decide what "appropriate" was. Forget the reuse of the word "activity" as it refers to all the columns and not the sitting, walking, etc column. Also, use the text editing functions you will learn there to create the new column names, ONLY for the data set you have now (the subset after step 2). 
+Creates a second, independent tidy data set with the average of each variable for each activity and each subject.  Here, I created subgroups by subject and activity (these generates 180 subgroups as there are 30 subjects and 6 activities). For each subgroup there must be a row in this new data set, with the mean of each column of each subgroup. My tidy data set included 89 columns (first three were subject, group partition (train or test) and activity name, and the other 86 were the means of each column of each sobgroup.)
+I hope this can be of any help, and of course, any help you can find to give me for something you find wrong I will appreciate it. Any questions I will also be glad to try to answer. 
+
+
+_________________________
+
+
+Re. variable naming, it's not necesarely as you say. Look at the Google R style guide:
+https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml
+
+I quote:
+Identifiers
+
+Don't use underscores ( _ ) or hyphens ( - ) in identifiers. Identifiers should be named according to the following conventions. The preferred form for variable names is all lower case letters and words separated with dots (variable.name), but variableName is also accepted; function names have initial capital letters and no dots (FunctionName); constants are named like functions but with an initial k.
+
+variable.name is preferred, variableName is accepted 
+GOOD: avg.clicks 
+OK: avgClicks 
+BAD: avg_Clicks
+FunctionName 
+GOOD: CalculateAvgClicks 
+BAD: calculate_avg_clicks , calculateAvgClicks 
+Make function names verbs. 
+Exception: When creating a classed object, the function name (constructor) and class should match (e.g., lm).
+kConstantName
+16votes received.· flag
+Jens Christian EriksenSignature Track· 13 days ago 
+Thanks for the information Guillermo. While i agree with you, I really don't want to end up in a situation where I will get a lower score, because the grading rubric says something like "Are all variable names in lower case, and without dots, hyphens and underscores".
+
+I believe that what you quoted, would result in easily readable variable names, versus having all lower case, no hyphens or dots. 
+
+An example could be: xvariableorientationmeasurementx versus x.variable.orientation.measurement.x
+
+In a real dataset, the variable, orientation, and measurement would probably be in a shorter form like var, ori, meas., but you get the idea :)
+

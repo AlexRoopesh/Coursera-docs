@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+C:\Users\alex.abraham\Documents\Coursera R\workspace\.metadata\.plugins\org.eclipse.jdt.core
+2002094077.index
+2210422825.index
+1633000670.index

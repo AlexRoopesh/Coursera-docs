@@ -1,0 +1,67 @@
+1] "Amount.Requested"               "Amount.Funded.By.Investors"    
+ [3] "Interest.Rate"                  "Loan.Length"                   
+ [5] "Loan.Purpose"                   "Debt.To.Income.Ratio"          
+ [7] "State"                          "Home.Ownership"                
+ [9] "Monthly.Income"                 "FICO.Range"                    
+[11] "Open.CREDIT.Lines"              "Revolving.CREDIT.Balance"      
+[13] "Inquiries.in.the.Last.6.Months" "Employment.Length"             
+[15] "X"                             
+> loansData<-read.csv("./Assignment/Submission/loansData.csv")
+> colnames(loansData)[3]<-"Dup.Funded"
+> colnames(loansData)[4]<-"Interest.Rate"
+> colnames(loansData)[5]<-"Loan.Length"
+> colnames(loansData)[6]<-"Loan.Purpose"
+>  colnames(loansData)[7]<-"Debt.To.Income.Ratio"
+> colnames(loansData)[8]<-"State"
+> colnames(loansData)[9]<-"Home.Ownership"
+> colnames(loansData)[10]<-"Monthly.Income"
+> colnames(loansData)[11]<-"FICO.Range"
+> colnames(loansData)[12]<-"Open.CREDIT.Lines"
+> colnames(loansData)[13]<-"Revolving.CREDIT.Balance"
+> colnames(loansData)[14]<-"Inquiries.in.the.Last.6.Months"
+> colnames(loansData)[15]<-"Employment.Length"             
+> summary(loansData)
+ Amount.Requested Amount.Funded.By.Investors   Dup.Funded      
+ Min.   :    10   Min.   : 1000              Min.   :   -0.01  
+ 1st Qu.: 26523   1st Qu.: 6000              1st Qu.: 6000.00  
+ Median : 50653   Median :10000              Median :10000.00  
+ Mean   : 51632   Mean   :12406              Mean   :12001.57  
+ 3rd Qu.: 77581   3rd Qu.:17000              3rd Qu.:16000.00  
+ Max.   :104202   Max.   :35000              Max.   :35000.00  
+                                                               
+ Interest.Rate     Loan.Length               Loan.Purpose 
+ 12.12% : 122   36 months:1952   debt_consolidation:1307  
+ 7.90%  : 119   60 months: 548   credit_card       : 444  
+ 13.11% : 115                    other             : 201  
+ 15.31% :  76                    home_improvement  : 152  
+ 14.09% :  72                    major_purchase    : 101  
+ 14.33% :  69                    small_business    :  87  
+ (Other):1927                    (Other)           : 208  
+ Debt.To.Income.Ratio     State       Home.Ownership Monthly.Income    
+ 0%     :   8         CA     : 433   MORTGAGE:1148   Min.   :   588.5  
+ 12.54% :   6         NY     : 255   NONE    :   1   1st Qu.:  3500.0  
+ 12.20% :   5         TX     : 174   OTHER   :   5   Median :  5000.0  
+ 12.85% :   5         FL     : 169   OWN     : 200   Mean   :  5688.9  
+ 14.22% :   5         IL     : 101   RENT    :1146   3rd Qu.:  6800.0  
+ 14.66% :   5         GA     :  98                   Max.   :102750.0  
+ (Other):2466         (Other):1270                   NA's   :1         
+   FICO.Range   Open.CREDIT.Lines Revolving.CREDIT.Balance
+ 670-674: 171   Min.   : 2.00     Min.   :     0          
+ 675-679: 166   1st Qu.: 7.00     1st Qu.:  5586          
+ 680-684: 157   Median : 9.00     Median : 10962          
+ 695-699: 153   Mean   :10.08     Mean   : 15245          
+ 665-669: 145   3rd Qu.:13.00     3rd Qu.: 18889          
+ 690-694: 140   Max.   :38.00     Max.   :270800          
+ (Other):1568   NA's   :2         NA's   :2               
+ Inquiries.in.the.Last.6.Months Employment.Length
+ Min.   :0.0000                 10+ years:653    
+ 1st Qu.:0.0000                 < 1 year :250    
+ Median :0.0000                 2 years  :244    
+ Mean   :0.9063                 3 years  :235    
+ 3rd Qu.:1.0000                 5 years  :202    
+ Max.   :9.0000                 4 years  :192    
+ NA's   :2                      (Other)  :724    
+
+dev.copy2pdf(file="initial.pdf")
+> smoothScatter(loansData$Interest.Rate,loansData$FICO.Range)
+interestCNA <- na.omit(InterestC)

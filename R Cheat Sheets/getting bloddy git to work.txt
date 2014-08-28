@@ -1,0 +1,18 @@
+
+https://github.com/AlexRoopesh/Clean-Data.git
+https://github.com/AlexRoopesh/Clean-Data.git
+Steps for Git
+
+1. Create a repository in Github with the "<name>"
+2. Open Git bash 
+3. git clone https://github.com/AlexRoopesh/<name>.git ## add .git to the folder name
+4. cd <name> folder ## remember the folder name is <name> without the .git extension
+3. copy files from R Studio console into the cloned repository
+4. add files using git add . (new files), -u (updates/deletes), -A (does first two)
+5. Only after 4 is done commit : git commit -m "comments" . ## This updates only the local repo
+6. git push  ( to push the updates to Git hub)
+
+if 6 doesnt work try this first and then for subsequent pushes we can use 6 again
+. this is becuaseNo master exists yet on the remote (origin) repository.
+
+6a. git push origin master
